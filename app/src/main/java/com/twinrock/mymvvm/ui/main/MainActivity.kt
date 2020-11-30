@@ -1,9 +1,8 @@
-package com.twinrock.mymvvm.ui
+package com.twinrock.mymvvm.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.twinrock.mymvvm.R
-import com.twinrock.mymvvm.ui.main.MainFragment
 
 class MainActivity : AppCompatActivity() {
 
