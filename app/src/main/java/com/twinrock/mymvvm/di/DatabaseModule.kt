@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.twinrock.mymvvm.data.local.AppDatabase
 import com.twinrock.mymvvm.data.local.UserDao
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,7 +19,7 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext appContext: Context): AppDatabase {
-        return Room.databaseBuilder(appContext, AppDatabase::class.java, "my_db")
+        return Room.databaseBuilder(appContext, AppDatabase::class.java, "mymvvm_db")
             .fallbackToDestructiveMigration()
             .build()
     }
@@ -28,3 +29,4 @@ object DatabaseModule {
         return database.userDao()
     }
 }
+

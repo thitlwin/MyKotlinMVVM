@@ -14,7 +14,7 @@ interface UserDataSource {
 
     suspend fun deleteUser(userId: String)
 
-    suspend fun getUserList(): Result<List<User>>
+    suspend fun getUserList(): LiveData<List<User>>
 
     fun observeUserList(): LiveData<Result<List<User>>>
 }

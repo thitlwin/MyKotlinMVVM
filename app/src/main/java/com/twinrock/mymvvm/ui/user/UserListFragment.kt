@@ -8,7 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import com.twinrock.mymvvm.R
+import com.twinrock.mymvvm.databinding.FragmentUserListBinding
+import com.twinrock.mymvvm.databinding.RegisterFragmentBinding
 import com.twinrock.mymvvm.ui.user.dummy.DummyContent
 
 /**
@@ -17,6 +20,10 @@ import com.twinrock.mymvvm.ui.user.dummy.DummyContent
 class UserListFragment : Fragment() {
 
     private var columnCount = 1
+
+    private var _binding: FragmentUserListBinding? = null
+    private val binding get() = _binding!!
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,19 +37,18 @@ class UserListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_user_list, container, false)
+        _binding = FragmentUserListBinding.inflate(inflater, container, false)
 
         // Set the adapter
-        if (view is RecyclerView) {
-            with(view) {
-                layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
-                }
-                adapter = UserRecyclerViewAdapter(DummyContent.ITEMS)
+        with(binding.recyclerUserList) {
+            layoutManager = when {
+                columnCount <= 1 -> LinearLayoutManager(context)
+                else -> GridLayoutManager(context, columnCount)
             }
+            adapter = UserRecyclerViewAdapter(DummyContent.ITEMS)
         }
-        return view
+        binding.toolbar.setNavigationOnClickListener { view -> view.findNavController().navigateUp() }
+        return binding.root
     }
 
     companion object {
