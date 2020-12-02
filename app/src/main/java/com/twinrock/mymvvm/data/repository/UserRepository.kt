@@ -1,17 +1,16 @@
 package com.twinrock.mymvvm.data.repository
 
 import androidx.lifecycle.LiveData
-import com.twinrock.mymvvm.data.datasource.UserDataSource
 import com.twinrock.mymvvm.data.local.UserDao
 import com.twinrock.mymvvm.data.model.User
-import com.twinrock.mymvvm.data.remote.ApiService
+import com.twinrock.mymvvm.data.remote.AppApi
 import javax.inject.Inject
 import com.twinrock.mymvvm.data.Result
 
 class UserRepository @Inject constructor(
-    private val apiService: ApiService,
+    private val appApi: AppApi,
     private val userDao: UserDao
-) : UserDataSource {
+) : UserRepositoryInterface {
 
     override suspend fun getUser(userId: String): Result<User> {
         TODO("Not yet implemented")
@@ -29,8 +28,9 @@ class UserRepository @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun getUserList(): LiveData<List<User>> {
-        return userDao.getAllUsers()
+    override fun getUserList(): LiveData<List<User>> {
+        val res = userDao.getAllUsers()
+        return res
     }
 
     override fun observeUserList(): LiveData<Result<List<User>>> {

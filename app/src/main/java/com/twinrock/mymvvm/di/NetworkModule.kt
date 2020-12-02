@@ -2,7 +2,7 @@ package com.twinrock.mymvvm.di
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.twinrock.mymvvm.data.remote.ApiService
+import com.twinrock.mymvvm.data.remote.AppApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,5 +26,5 @@ object NetworkModule {
     fun provideGson(): Gson = GsonBuilder().create()
 
     @Provides
-    fun provideApiServiceInterface(retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)
+    fun provideApiServiceInterface(retrofit: Retrofit): AppApi = retrofit.create(AppApi::class.java)
 }

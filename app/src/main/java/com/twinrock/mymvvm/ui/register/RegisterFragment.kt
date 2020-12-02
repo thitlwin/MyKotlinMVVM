@@ -1,23 +1,23 @@
 package com.twinrock.mymvvm.ui.register
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.twinrock.mymvvm.R
 import com.twinrock.mymvvm.data.model.User
 import com.twinrock.mymvvm.databinding.RegisterFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class RegisterFragment : Fragment(), View.OnClickListener {
 
+    val TAG = javaClass.name
     private val viewModel: RegisterViewModel by viewModels()
 
     private var _binding: RegisterFragmentBinding? = null
@@ -31,14 +31,15 @@ class RegisterFragment : Fragment(), View.OnClickListener {
         _binding = RegisterFragmentBinding.inflate(inflater, container, false)
         binding.buttonUserList.setOnClickListener(this)
         binding.buttonRegister.setOnClickListener(this)
+        subscribeUI()
         return binding.root
     }
 
-//    override fun onActivityCreated(savedInstanceState: Bundle?) {
-//        super.onActivityCreated(savedInstanceState)
-//        viewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
-//        // TODO: Use the ViewModel
-//    }
+    private fun subscribeUI() {
+        viewModel.userList.observe(viewLifecycleOwner) { result ->
+            binding.buttonUserList.setText("User List (${result.size})")
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -64,23 +65,27 @@ class RegisterFragment : Fragment(), View.OnClickListener {
                 email = binding.editTextEmail.text.toString(),
                 password = binding.editTextPassword.text.toString())
             viewModel.registerUser(user)
+            Toast.makeText(requireContext(), "Save Success", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun formValidation(): Boolean {
+        var hasError = false
         if (TextUtils.isEmpty(binding.editTextName.text)) {
-            binding.editTextName.setError("Name is required")
-            return false
+            binding.textInputLayoutUserName.error = "Name is required"
+            hasError = true
         }
         if (TextUtils.isEmpty(binding.editTextEmail.text)) {
-            binding.editTextEmail.setError("Email is required")
-            return false
+            binding.textInputLayoutEmail.error = "Email is required"
+            hasError = true
         }
 
         if (TextUtils.isEmpty(binding.editTextPassword.text)) {
-            binding.editTextPassword.setError("Password is required")
-            return false
+            binding.textInputLayoutPassword.error = "Password is required"
+            hasError = true
         }
+        if (hasError)
+            return false
         return true
     }
 }

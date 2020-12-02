@@ -1,10 +1,10 @@
-package com.twinrock.mymvvm.data.datasource
+package com.twinrock.mymvvm.data.repository
 
 import androidx.lifecycle.LiveData
 import com.twinrock.mymvvm.data.model.User
 import com.twinrock.mymvvm.data.Result
 
-interface UserDataSource {
+interface UserRepositoryInterface {
 
     suspend fun getUser(userId: String): Result<User>
 
@@ -14,7 +14,7 @@ interface UserDataSource {
 
     suspend fun deleteUser(userId: String)
 
-    suspend fun getUserList(): LiveData<List<User>>
+    fun getUserList(): LiveData<List<User>>
 
     fun observeUserList(): LiveData<Result<List<User>>>
 }

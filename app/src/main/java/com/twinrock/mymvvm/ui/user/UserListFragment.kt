@@ -8,15 +8,15 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
-import com.twinrock.mymvvm.R
+import com.twinrock.mymvvm.data.model.User
 import com.twinrock.mymvvm.databinding.FragmentUserListBinding
-import com.twinrock.mymvvm.databinding.RegisterFragmentBinding
-import com.twinrock.mymvvm.ui.user.dummy.DummyContent
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-/**
- * A fragment representing a list of Items.
- */
+@AndroidEntryPoint
 class UserListFragment : Fragment() {
 
     private var columnCount = 1
@@ -24,6 +24,9 @@ class UserListFragment : Fragment() {
     private var _binding: FragmentUserListBinding? = null
     private val binding get() = _binding!!
 
+    private val viewModel: UserViewModel by viewModels()
+
+    private var userList: ArrayList<User> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,10 +48,19 @@ class UserListFragment : Fragment() {
                 columnCount <= 1 -> LinearLayoutManager(context)
                 else -> GridLayoutManager(context, columnCount)
             }
-            adapter = UserRecyclerViewAdapter(DummyContent.ITEMS)
+            adapter = UserRecyclerViewAdapter(userList)
         }
         binding.toolbar.setNavigationOnClickListener { view -> view.findNavController().navigateUp() }
+        subscribeUI()
         return binding.root
+    }
+
+    private fun subscribeUI() {
+        viewModel.userList.observe(viewLifecycleOwner, Observer<List<User>> {
+            userList.clear()
+            userList.addAll(it!!)
+            binding.recyclerUserList.adapter?.notifyDataSetChanged()
+        })
     }
 
     companion object {
