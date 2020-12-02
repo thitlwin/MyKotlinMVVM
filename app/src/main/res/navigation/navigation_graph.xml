@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.twinrock.mymvvm.ui.register.RegisterFragment"
+        android:name="com.twinrock.mymvvm.ui.user_register.UserRegisterFragment"
         android:label="register_fragment"
-        tools:layout="@layout/register_fragment" >
+        tools:layout="@layout/fragment_user_register" >
         <action
             android:id="@+id/action_registerFragment_to_userListFragment"
             app:destination="@id/userListFragment"
@@ -22,5 +22,26 @@
         android:id="@+id/userListFragment"
         android:name="com.twinrock.mymvvm.ui.user.UserListFragment"
         android:label="fragment_user_list_list"
-        tools:layout="@layout/fragment_user_list" />
+        tools:layout="@layout/fragment_user_list" >
+        <action
+            android:id="@+id/action_userListFragment_to_userEditFragment"
+            app:destination="@id/userEditFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/userEditFragment"
+        android:name="com.twinrock.mymvvm.ui.user_edit.UserEditFragment"
+        android:label="UserEditFragment"
+        tools:layout="@layout/fragment_user_edit">
+        <argument
+            android:name="userId"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <argument
+            android:name="user"
+            app:argType="com.twinrock.mymvvm.data.model.User" />
+    </fragment>
 </navigation>

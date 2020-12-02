@@ -1,6 +1,5 @@
-package com.twinrock.mymvvm.ui.register
+package com.twinrock.mymvvm.ui.user_register
 
-import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -8,9 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.twinrock.mymvvm.data.model.User
 import com.twinrock.mymvvm.data.repository.UserRepository
 import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 
-class RegisterViewModel @ViewModelInject constructor(private val userRepository: UserRepository) : ViewModel() {
+class UserRegisterViewModel @ViewModelInject constructor(private val userRepository: UserRepository) : ViewModel() {
     val TAG = javaClass.name
 
     val userList: LiveData<List<User>> = userRepository.getUserList()

@@ -1,4 +1,4 @@
-package com.twinrock.mymvvm.ui.register
+package com.twinrock.mymvvm.ui.user_register
 
 import android.os.Bundle
 import android.text.TextUtils
@@ -11,16 +11,16 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.twinrock.mymvvm.R
 import com.twinrock.mymvvm.data.model.User
-import com.twinrock.mymvvm.databinding.RegisterFragmentBinding
+import com.twinrock.mymvvm.databinding.FragmentUserRegisterBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RegisterFragment : Fragment(), View.OnClickListener {
+class UserRegisterFragment : Fragment(), View.OnClickListener {
 
     val TAG = javaClass.name
-    private val viewModel: RegisterViewModel by viewModels()
+    private val viewModelUser: UserRegisterViewModel by viewModels()
 
-    private var _binding: RegisterFragmentBinding? = null
+    private var _binding: FragmentUserRegisterBinding? = null
     private val binding get() = _binding!!
 
 
@@ -28,7 +28,7 @@ class RegisterFragment : Fragment(), View.OnClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = RegisterFragmentBinding.inflate(inflater, container, false)
+        _binding = FragmentUserRegisterBinding.inflate(inflater, container, false)
         binding.buttonUserList.setOnClickListener(this)
         binding.buttonRegister.setOnClickListener(this)
         subscribeUI()
@@ -36,7 +36,7 @@ class RegisterFragment : Fragment(), View.OnClickListener {
     }
 
     private fun subscribeUI() {
-        viewModel.userList.observe(viewLifecycleOwner) { result ->
+        viewModelUser.userList.observe(viewLifecycleOwner) { result ->
             binding.buttonUserList.setText("User List (${result.size})")
         }
     }
@@ -52,7 +52,7 @@ class RegisterFragment : Fragment(), View.OnClickListener {
                 registerUser()
                                    }
             R.id.buttonUserList -> {
-                val direction = RegisterFragmentDirections.actionRegisterFragmentToUserListFragment()
+                val direction = UserRegisterFragmentDirections.actionRegisterFragmentToUserListFragment()
                 v.findNavController().navigate(direction)
             }
         }
@@ -64,9 +64,16 @@ class RegisterFragment : Fragment(), View.OnClickListener {
                 name = binding.editTextName.text.toString(),
                 email = binding.editTextEmail.text.toString(),
                 password = binding.editTextPassword.text.toString())
-            viewModel.registerUser(user)
+            viewModelUser.registerUser(user)
             Toast.makeText(requireContext(), "Save Success", Toast.LENGTH_SHORT).show()
+            clearForm()
         }
+    }
+
+    private fun clearForm() {
+        binding.editTextEmail.setText("")
+        binding.editTextName.setText("")
+        binding.editTextPassword.setText("")
     }
 
     private fun formValidation(): Boolean {

@@ -2,38 +2,56 @@ package com.twinrock.mymvvm.ui.user
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import com.twinrock.mymvvm.data.model.User
 import com.twinrock.mymvvm.databinding.UserListItemBinding
 
-class UserRecyclerViewAdapter(
-    private val values: List<User>
-) : RecyclerView.Adapter<UserRecyclerViewAdapter.ViewHolder>() {
+class UserRecyclerViewAdapter(private val userItemClickListener: UserItemClickListener
+) : RecyclerView.Adapter<UserRecyclerViewAdapter.UserListViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(UserListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+    interface UserItemClickListener {
+        fun onClickedUser(user: User)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = values[position]
-        holder.bind(item)
+    private val items = ArrayList<User>()
+
+    fun setItems(items: ArrayList<User>) {
+        this.items.clear()
+        this.items.addAll(items)
+        notifyDataSetChanged()
     }
 
-    override fun getItemCount(): Int = values.size
 
-    inner class ViewHolder(private val binding: UserListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserListViewHolder {
+        return UserListViewHolder(
+            UserListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ,userItemClickListener)
+    }
 
+    override fun onBindViewHolder(holderUserList: UserListViewHolder, position: Int) {
+        val item = items[position]
+        holderUserList.bind(item)
+    }
+
+    override fun getItemCount(): Int = items.size
+
+    inner class UserListViewHolder(private val binding: UserListItemBinding,
+                                   private val itemClickListener: UserRecyclerViewAdapter.UserItemClickListener) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
+        lateinit var user: User
         init {
-            binding.setClickListener {
-                println("click card----")
-            }
+            binding.root.setOnClickListener(this)
         }
 
         fun bind(item: User) {
-            binding.apply {
-                user = item
-                executePendingBindings()
-            }
+            user = item
+            binding.userId.text = user.id.toString()
+            binding.userName.text = user.name
+            binding.userEmail.text = user.email
+        }
+
+        override fun onClick(p0: View?) {
+            itemClickListener.onClickedUser(user)
         }
     }
 }

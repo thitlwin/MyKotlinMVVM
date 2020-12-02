@@ -1,10 +1,7 @@
 package com.twinrock.mymvvm.data.local
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.twinrock.mymvvm.data.model.User
 
 @Dao
@@ -15,6 +12,9 @@ interface UserDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(user: User)
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun update(user: User)
 
     @Query("SELECT * FROM users")
     fun getAllUsers() : LiveData<List<User>>

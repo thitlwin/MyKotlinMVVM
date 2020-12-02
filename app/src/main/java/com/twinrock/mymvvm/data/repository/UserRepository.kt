@@ -20,8 +20,8 @@ class UserRepository @Inject constructor(
         userDao.insert(user)
     }
 
-    override suspend fun updateUser(userId: String, user: User) {
-        TODO("Not yet implemented")
+    override suspend fun updateUser(user: User) {
+        userDao.update(user)
     }
 
     override suspend fun deleteUser(userId: String) {

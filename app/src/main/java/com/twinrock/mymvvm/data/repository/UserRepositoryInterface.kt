@@ -10,7 +10,7 @@ interface UserRepositoryInterface {
 
     suspend fun saveUser(user: User)
 
-    suspend fun updateUser(userId: String, user: User)
+    suspend fun updateUser(user: User)
 
     suspend fun deleteUser(userId: String)
 
