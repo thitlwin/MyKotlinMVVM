@@ -21,7 +21,7 @@ class UserRegisterFragment : Fragment(), View.OnClickListener {
     private val viewModelUser: UserRegisterViewModel by viewModels()
 
     private var _binding: FragmentUserRegisterBinding? = null
-    private val binding get() = _binding!!
+    val binding get() = _binding!!
 
 
     override fun onCreateView(
@@ -31,6 +31,7 @@ class UserRegisterFragment : Fragment(), View.OnClickListener {
         _binding = FragmentUserRegisterBinding.inflate(inflater, container, false)
         binding.buttonUserList.setOnClickListener(this)
         binding.buttonRegister.setOnClickListener(this)
+
         subscribeUI()
         return binding.root
     }

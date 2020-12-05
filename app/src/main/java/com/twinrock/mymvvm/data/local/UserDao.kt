@@ -2,6 +2,7 @@ package com.twinrock.mymvvm.data.local
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.twinrock.mymvvm.data.MyResult
 import com.twinrock.mymvvm.data.model.User
 
 @Dao
@@ -17,6 +18,10 @@ interface UserDao {
     suspend fun update(user: User)
 
     @Query("SELECT * FROM users")
-    fun getAllUsers() : LiveData<List<User>>
+    fun getAllUsers() : List<User>
+
+    @Query("SELECT * FROM users")
+    fun observeAllUsers(): LiveData<List<User>>
+
 
 }
