@@ -1,7 +1,10 @@
 package com.twinrock.mymvvm.data.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.liveData
 import androidx.lifecycle.map
+import androidx.lifecycle.switchMap
 import com.twinrock.mymvvm.data.local.UserDao
 import com.twinrock.mymvvm.data.model.User
 import com.twinrock.mymvvm.data.remote.AppApi
@@ -16,9 +19,40 @@ class UserRepository @Inject constructor(
 ) : UserRepositoryInterface {
 
     val TAG = javaClass.name
+    override fun getUserById(userId: Int): LiveData<User> = liveData {
+        try {
+            emitSource(userDao.getUserById(userId))
+        } catch (e: Exception) {
+            Log.e(TAG, e.message.toString())
+        }
+    }
 
-    override suspend fun getUser(userId: String): MyResult<User> {
-        TODO("Not yet implemented")
+//     fun getUserById(userId: Int): liveData<User>{
+//
+//    }
+
+//            MyResult<User> {
+//        return try {
+//            MyResult.Success(userDao.getUserById(userId))
+//        } catch (e: Exception) {
+//            MyResult.Error(e)
+//        }
+//    }
+
+    override suspend fun getUserByName(userName: String): MyResult<User> {
+        return try {
+            MyResult.Success(userDao.getUserByName(userName))
+        } catch (e: Exception) {
+            MyResult.Error(e)
+        }
+    }
+
+    override suspend fun getUserByEmail(userEmail: String): MyResult<User> {
+        return try {
+            MyResult.Success(userDao.getUserByEmail(userEmail))
+        } catch (e: Exception) {
+            MyResult.Error(e)
+        }
     }
 
     override suspend fun saveUser(user: User) {

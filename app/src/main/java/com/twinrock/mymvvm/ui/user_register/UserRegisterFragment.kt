@@ -31,6 +31,7 @@ class UserRegisterFragment : Fragment(), View.OnClickListener {
         _binding = FragmentUserRegisterBinding.inflate(inflater, container, false)
         binding.buttonUserList.setOnClickListener(this)
         binding.buttonRegister.setOnClickListener(this)
+        binding.buttonSearchUser.setOnClickListener(this)
 
         subscribeUI()
         return binding.root
@@ -55,6 +56,9 @@ class UserRegisterFragment : Fragment(), View.OnClickListener {
             R.id.buttonUserList -> {
                 val direction = UserRegisterFragmentDirections.actionRegisterFragmentToUserListFragment()
                 v.findNavController().navigate(direction)
+            }
+            R.id.buttonSearchUser -> {
+                v.findNavController().navigate(UserRegisterFragmentDirections.actionRegisterFragmentToUserSearchFragment())
             }
         }
     }

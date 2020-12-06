@@ -17,6 +17,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_registerFragment_to_userSearchFragment"
+            app:destination="@id/userSearchFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/userListFragment"
@@ -45,4 +52,9 @@
             android:name="user"
             app:argType="com.twinrock.mymvvm.data.model.User" />
     </fragment>
+    <fragment
+        android:id="@+id/userSearchFragment"
+        android:name="com.twinrock.mymvvm.ui.user_search.UserSearchFragment"
+        android:label="fragment_user_search"
+        tools:layout="@layout/fragment_user_search" />
 </navigation>

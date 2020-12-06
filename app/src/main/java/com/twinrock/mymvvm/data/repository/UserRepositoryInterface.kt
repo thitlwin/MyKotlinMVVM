@@ -6,7 +6,9 @@ import com.twinrock.mymvvm.data.MyResult
 
 interface UserRepositoryInterface {
 
-    suspend fun getUser(userId: String): MyResult<User>
+    fun getUserById(userId: Int): LiveData<User>
+    suspend fun getUserByName(userName: String): MyResult<User>
+    suspend fun getUserByEmail(userEmail: String): MyResult<User>
 
     suspend fun saveUser(user: User)
 
