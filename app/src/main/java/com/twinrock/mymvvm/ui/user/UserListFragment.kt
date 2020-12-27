@@ -7,12 +7,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.navigation.NavigationView
+import com.twinrock.mymvvm.R
 import com.twinrock.mymvvm.data.model.User
 import com.twinrock.mymvvm.databinding.FragmentUserListBinding
+import com.twinrock.mymvvm.databinding.FragmentUserListWithDrawerBinding
 import com.twinrock.mymvvm.ui.user_edit.UserEditFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,7 +28,9 @@ import dagger.hilt.android.AndroidEntryPoint
 class UserListFragment : Fragment(), UserRecyclerViewAdapter.UserItemClickListener {
 
     val TAG = javaClass.name
-    private var _binding: FragmentUserListBinding? = null
+    private lateinit var appBarConfiguration: AppBarConfiguration
+
+    private var _binding: FragmentUserListWithDrawerBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: UserViewModel by viewModels()
@@ -32,20 +42,23 @@ class UserListFragment : Fragment(), UserRecyclerViewAdapter.UserItemClickListen
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentUserListBinding.inflate(inflater, container, false)
+//        _binding = FragmentUserListBinding.inflate(inflater, container, false)
+        _binding = FragmentUserListWithDrawerBinding.inflate(inflater, container, false)
 
         setUpRecyclerView()
         subscribeUI()
 
-        binding.toolbar.setNavigationOnClickListener { view -> view.findNavController().navigateUp() }
+        binding.userListFrgment.toolbar.setNavigationOnClickListener { binding.drawerLayout.open() }
+        binding.userListFrgment.fab.setOnClickListener { view -> view.findNavController().navigateUp() }
+
         return binding.root
     }
 
     private fun setUpRecyclerView() {
         // Set the adapter
         adapter = UserRecyclerViewAdapter(this)
-        binding.recyclerUserList.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerUserList.adapter = adapter
+        binding.userListFrgment.recyclerUserList.layoutManager = LinearLayoutManager(requireContext())
+        binding.userListFrgment.recyclerUserList.adapter = adapter
     }
 
     private fun subscribeUI() {
