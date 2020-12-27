@@ -64,7 +64,7 @@ class UserRepository @Inject constructor(
     }
 
     override suspend fun deleteUser(userId: String) {
-        TODO("Not yet implemented")
+        userDao.deleteUserbyId(userId = userId.toInt())
     }
 
     override suspend fun getUsers(): MyResult<List<User>> = withContext(Dispatchers.IO) {

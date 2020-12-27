@@ -30,4 +30,6 @@ interface UserDao {
     fun observeAllUsers(): LiveData<List<User>>
 
 
+    @Query("DELETE FROM users where id = :userId")
+    fun deleteUserbyId(userId: Int)
 }

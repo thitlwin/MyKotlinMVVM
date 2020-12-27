@@ -1,6 +1,5 @@
 package com.twinrock.mymvvm.ui.user_edit
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.text.TextUtils
 import androidx.fragment.app.Fragment
@@ -45,8 +44,15 @@ class UserEditFragment : Fragment() {
     ): View? {
         _binding = FragmentUserEditBinding.inflate(inflater, container, false)
         binding.buttonRegister.setOnClickListener { updateUser()}
+        binding.btnDelete.setOnClickListener { deleteUser(args.user) }
         binding.toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
         return binding.root
+    }
+
+    private fun deleteUser(user: User) {
+        viewModel.deleteUser(user)
+        Toast.makeText(requireContext(), "Delete Success", Toast.LENGTH_SHORT).show()
+        findNavController().navigateUp()
     }
 
 
